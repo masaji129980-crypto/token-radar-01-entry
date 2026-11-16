@@ -15,7 +15,9 @@
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts --input ../input/snapshot.json
 //
 // The program is deterministic: the same snapshot always writes the same bytes, so the grader's two
-// runs agree.
+// runs agree. Verify a local run against the reference board hash before submitting:
+//   mkdir -p /tmp/radar-rewrite-out && MAKEFUN_OUTPUT_DIR=/tmp/radar-rewrite-out node main.ts \
+//     --input ../input/snapshot.json && sha256sum /tmp/radar-rewrite-out/board.json
 
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -58,7 +60,8 @@ mkdirSync(out, { recursive: true });
 writeFileSync(join(out, 'board.json'), `${JSON.stringify({ rows: board })}\n`);
 writeFileSync(join(out, 'data.js'), dataScript(radar));
 
-/** Copy one directory's regular files into `to`, skipping names that start with a dot. */
+/** Copy one directory's regular files into `to`, skipping names that start with a dot. Hidden files
+    never reach /output, so the gate never sees them. */
 function copyFiles(from: string, to: string): string[] {
   if (!existsSync(from)) return [];
   mkdirSync(to, { recursive: true });

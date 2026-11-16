@@ -1,4 +1,4 @@
-// The token radar's model (radar-2): one snapshot of the protocol universe in, one ranked board out.
+// The token radar's model (radar-2): a snapshot of the protocol universe goes in, a ranked board comes out.
 //
 // The board covers every slug in the snapshot's watchlist (the floor, never a ceiling) and adds every
 // rankable pre-token protocol below the watchlist floor: the early rows the radar exists to find. A
